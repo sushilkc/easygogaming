@@ -1,0 +1,17 @@
+{
+    "extends": ["airbnb-base", "plugin:prettier/recommended"],
+    "env": {
+      "mocha": true,
+      "node": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 2018
+    },
+    "rules": {
+      "prettier/prettier": ["error", { "singleQuote": true }],
+      "no-console": 2,
+      "no-await-in-loop": 0,
+      "no-restricted-syntax": ["error", "WithStatement", "BinaryExpression[operator='in']"]
+    }
+  }
+  

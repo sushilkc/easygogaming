@@ -1,0 +1,19 @@
+{
+  "name": "easygo",
+  "version": "1.0.0",
+  "description": "shared dev dependencies",
+  "scripts": {
+    "start": "docker-compose up",
+    "lint": "eslint --fix --quiet ."
+  },
+  "author": "easygo",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "eslint": "^7.17.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "prettier": "^2.2.1"
+  }
+}

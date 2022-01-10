@@ -1,0 +1,53 @@
+version: '3.3'
+
+services:
+  # we use redis pub/sub to share events between the services
+  redis:
+    image: redis:5-alpine
+
+  graphql:
+    image: node:12-alpine
+    working_dir: /node
+    command: yarn start
+    volumes:
+    - ./graphql:/node
+    ports:
+    - 80:80
+    depends_on:
+    - redis
+
+  dice:
+    image: node:12-alpine
+    working_dir: /node
+    command: yarn start
+    volumes:
+    - ./dice:/node
+    ports:
+    - 80
+    depends_on:
+    - redis
+    - dice-postgres
+
+  dice-postgres:
+    image: postgres:12-alpine
+    environment:
+    - POSTGRES_PASSWORD=password
+
+  statistic:
+    image: node:12-alpine
+    working_dir: /node
+    command: yarn start
+    volumes:
+    - ./statistic:/node
+    ports:
+    - 80
+    depends_on:
+    - redis
+    - statistic-postgres
+
+  statistic-postgres:
+    image: postgres:12-alpine
+    environment:
+    - POSTGRES_PASSWORD=password
+
+
