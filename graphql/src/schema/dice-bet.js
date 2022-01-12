@@ -7,7 +7,7 @@ const {
 const axios = require('axios');
 const User = require('./user');
 const Seed = require('./seed');
-
+let seeds = {};
 exports.Type = new GraphQLObjectType({
   name: 'DiceBet',
   fields: () => ({
@@ -24,7 +24,15 @@ exports.Type = new GraphQLObjectType({
     seed: {
       type: Seed.Type,
       resolve: async ({ seed_id: seedId }) => {
+        
+        // return seed from seeds object if the result already exists for given seedId
+        if(seeds[seedId]){
+          return seeds[seedId];
+        }
+        
         const { data } = await axios.post(`http://dice/get-seed`, { seedId });
+        // assign seed result to seeds object where key is seedId so that no need to query the seed for same seedId again
+        seeds[seedId] = data; 
         return data;
       },
     },
