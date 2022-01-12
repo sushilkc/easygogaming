@@ -32,13 +32,13 @@ async function start() {
 
   app.use(bodyParser.json());
 
-  // get statistic per user / per game
+  // get statistic per user per game
   app.post(
     '/get-statistic',
     response(async ({ user, game }) => getStatistic({ user, game }))
   );
 
-  // get all statistics per user
+  // get statistics of all game per user
   app.post(
     '/get-statistics',
     response(async ({ user }) => getStatistics({ user }))

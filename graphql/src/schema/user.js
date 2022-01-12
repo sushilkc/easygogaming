@@ -15,7 +15,7 @@ exports.Type = new GraphQLObjectType({
   name: 'User',
   fields: () => ({
     name: { type: GraphQLString },
-    statistic: {
+    statistic: { // get statistic per game per user
       type: Statistic.Type,
       args: {
         game: { type: GraphQLNonNull(GraphQLString) },
@@ -28,7 +28,7 @@ exports.Type = new GraphQLObjectType({
         return data;
       },
     },
-    statistics: {
+    statistics: { // get statistics of all game per user
       type: new GraphQLList(Statistic.Type),
       resolve: async ({ name: user }) => {
         const { data } = await axios.post('http://statistic/get-statistics', {
