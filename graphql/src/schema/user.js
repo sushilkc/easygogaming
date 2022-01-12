@@ -3,6 +3,7 @@ const {
   GraphQLInt,
   GraphQLString,
   GraphQLList,
+  GraphQLNonNull
 } = require('graphql');
 const axios = require('axios');
 const DiceBet = require('./dice-bet');
@@ -16,8 +17,21 @@ exports.Type = new GraphQLObjectType({
     name: { type: GraphQLString },
     statistic: {
       type: Statistic.Type,
+      args: {
+        game: { type: GraphQLNonNull(GraphQLString) },
+      },
+      async resolve(parent, { game }, { user }) {
+        const { data } = await axios.post(`http://statistic/get-statistic`, {
+          user,
+          game,
+        });
+        return data;
+      },
+    },
+    statistics: {
+      type: new GraphQLList(Statistic.Type),
       resolve: async ({ name: user }) => {
-        const { data } = await axios.post('http://statistic/get-statistic', {
+        const { data } = await axios.post('http://statistic/get-statistics', {
           user,
         });
         return data;
