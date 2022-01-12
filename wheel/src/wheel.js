@@ -20,6 +20,7 @@ const parseSeed = (seed) => {
 // segments
 const segments = [1.50, 1.20, 0.00, 1.20, 1.20, 1.20, 1.20, 0.00, 1.20, 1.20];
 
+// spin wheel
 exports.spinWheel = ({ user, amount }) =>
     knex.transaction(async (trx) => {
         assert(amount >= 0);
@@ -84,6 +85,7 @@ exports.spinWheel = ({ user, amount }) =>
         return bet;
     });
 
+// get bets
 exports.getBets = async ({ user, limit, offset }) => {
     const bets = await knex('bet')
         .where('user', user)
@@ -94,11 +96,13 @@ exports.getBets = async ({ user, limit, offset }) => {
     return bets;
 };
 
+// get seed
 exports.getSeed = async ({ seedId }) => {
     const [seed] = await knex('seed').where('id', seedId);
     return parseSeed(seed);
 };
 
+// rotate seed
 exports.rotateSeed = async ({ user }) => {
     const [seed] = await knex('seed')
         .update({ active: false })
@@ -108,6 +112,7 @@ exports.rotateSeed = async ({ user }) => {
     return parseSeed(seed);
 };
 
+// get active seed
 exports.getActiveSeed = async ({ user }) => {
     const [seed] = await knex('seed').where({ user, active: true });
     return parseSeed(seed);
